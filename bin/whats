@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
+require 'rubygems'
+require 'optparse'
+require 'paint'
+require 'whats_version'
+require 'whats'
+
+options = OpenStruct.new
+options.images = true
+
+
+flags = OptionParser.new do |opts|
+  opts.banner = Paint["whats this?", :bold]
+  opts.separator ''
+  opts.separator 'Options:'
+  opts.version = Whats::VERSION
+  
+  opts.on_tail('-h', '--help', 'Show this message') do
+    puts flags
+    exit
+  end
+
+  opts.on('-i', '--[no-]images', 'Show images (on by default)') do |i|
+    options.images = i
+  end
+
+end
+
+inputs = flags.parse(ARGV)
+
+begin
+  its = Whats.new(inputs.join ' ')
+
+  puts Paint[its.heading, :red]
+  puts its.image if its.image?
+  if its.abstract
+    puts Paint['Abstract:', :yellow]
+    puts its.abstract 
+  end
+  if its.answer?
+    puts Paint['Answer:', :green]
+    puts its.answer
+  end
+  if its.definition?
+    puts Paint['Definition:', :blue]
+    puts its.definition
+  end
+  if its.related_topics?
+    puts Paint['Related Topics:', :magenta]
+    puts its.related_topics
+  end
+  if its.results?
+    puts Paint['Results:', :cyan]
+    puts its.results
+  end
+
+rescue Exception => e
+  $stderr.puts Paint["I don't know what '#{inputs.join ' '}' is", :red, :bold]
+end
