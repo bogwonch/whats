@@ -1,5 +1,0 @@
-= whats
-
-Generate this with
-    whats rdoc
-After you have described your command line interface

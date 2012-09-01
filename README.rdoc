@@ -1,6 +1,0 @@
-= whats
-
-Describe your project here
-
-:include:whats.rdoc
-
