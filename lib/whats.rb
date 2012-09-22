@@ -21,7 +21,6 @@ module Whats
 
   # Display a citation
   def Whats.cite(source, url)
-    output = ''
     output += Paint["(via #{source})", :italic, :bold] unless source.nil?
     output += Paint["(#{url})", :italic]  unless url.nil?
     return output
